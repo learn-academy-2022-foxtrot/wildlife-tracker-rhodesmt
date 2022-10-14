@@ -9,19 +9,39 @@ class AnimalsController < ApplicationController
     def show
         animal = Animal.find(params[:id])
         render json: animal
-      end
+    end
 
-      def create
+    def create
         animal = Animal.create(animal_params)
         if animal.valid?
           render json: animal
         else
           render json: animal.errors
         end
-      end
+    end
     
-      private
-      def animal_params
+    def update
+        animal = Animal.find(params[:id])
+        animal.update(animal_params)
+        if animal.valid?
+          render json: animal
+        else
+          render json: animal.errors
+        end
+    end
+
+    def destroy
+        animal = Animal.find(params[:id])
+        if animal.destroy
+          render json: animal
+        else
+          render json: animal.errors
+        end
+    end
+
+    
+    private
+    def animal_params
         params.require(:animal).permit(:common_name, :scientific_name)
-      end
+    end
 end
